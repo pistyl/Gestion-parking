@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Page Title</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+   <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+   <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+   <script>
+
+      $(document).ready(function () {
+         var BASE_URL = "http://192.168.43.222/backend/auth.php?service=";
+         register = function () {
+            snom = $("#rnom").val();
+            sprenom = $("#rprenom").val();
+            slogin = $("#rlogin").val();
+            spass = $("#rpass").val();
+            // il faut faire la valdiation des champs
+            $.ajax({
+               url: BASE_URL + "register",
+               method: "POST",
+               data: { nom: snom, prenom: sprenom, login: slogin, pass: spass }
+            }).done(function (msg) {
+               if(msg.code==0){
+                  document.location.href="#auth";
+               } 
+               else {
+                  $("#rnotif").html("Erreur !!!");
+               }
+            });
+            return false;
+         }
+
+         auth = function () {
+            slogin = $("#login").val();
+            spass = $("#pass").val();
+            // il faut faire la valdiation des champs
+            $.ajax({
+               url: BASE_URL + "auth",
+               method: "POST",
+               data: { login: slogin, pass: spass }
+            }).done(function (msg) {
+              // alert(msg.code);
+               if(msg.code==0){
+                  document.location.href="#accueil";
+               } 
+               else {
+                  $("#anotif").html("Erreur sur Login ou Pass!!!");
+               }
+            });
+            return false;
+         }
+
+
+
+      });
+   </script>
+</head>
+
+<body>
+   <div data-role="page" data-theme="a" id="auth">
+      <div data-role="header" data-theme="b">
+         <h1>Authentification <span id="anotif"></span></h1>
+      </div>
+      <div data-role="content">
+            <label for="text-basic">Login:</label>
+            <input type="text" name="login" id="login" value="">
+            <label for="text-basic">Mot de Passe:</label>
+            <input type="password" name="pass" id="pass" value="">
+            <button onclick="auth()" class="ui-shadow ui-btn ui-corner-all">Login</button>
+            <a href="#register">creer un compte</button>
+
+
+      </div>
+      <footer data-role="footer" role="contentinfo" data-theme="b">
+         <p class="center">Powered by ESSA</p>
+      </footer>
+
+   </div>
+   <div data-role="page" id="register">
+      <div data-role="header" data-theme="f">
+         <h1>Creation de Compte <span id="rnotif"></span></h1>
+      </div>
+      <div data-role="content">
+            <label for="text-basic">Nom:</label>
+            <input type="text" name="nom" id="rnom" value="">
+            <label for="text-basic">Prenom:</label>
+            <input type="text" name="prenom" id="rprenom" value="">
+            <label for="text-basic">Login:</label>
+            <input type="text" name="login" id="rlogin" value="">
+            <label for="text-basic">Mot de Passe:</label>
+            <input type="password" name="pass" id="rpass" value="">
+            <button onclick="register()" class="ui-shadow ui-btn ui-corner-all">Creer</button>
+            <a href="#auth">Authentification</button>
+
+
+      </div>
+      <footer data-role="footer" role="contentinfo">
+         <p class="center">Powered by ESSA</p>
+      </footer>
+
+   </div>
+   <div data-role="page" id="accueil">
+      <div data-role="header" data-theme="f">
+         <h1>Kiwi Partÿ, by Alsacréations</h1>
+      </div>
+      <div data-role="content">
+         <p class="center">
+            <img src="/img/essa.png" alt="ESSA: Journ&eacute;e d'int&eacute;gration" width="320" height="89" />
+         </p>
+
+         <p>Programme des Journées</p>
+         <ul data-role="listview" data-inset="true">
+            <li><a href="programme.html" data-transition="flip">Le programme</a></li>
+            <li><a href="orateurs.html" data-transition="slide">Les orateurs</a></li>
+            <li><a href="partenaires.html" data-transition="flow">Nos partenaires</a></li>
+            <li><a href="after.html" data-transition="slidedown">L':after</a></li>
+            <li><a href="contact.html" data-transition="slideup">Nous donner un feedback</a></li>
+         </ul>
+
+
+      </div>
+      <footer data-role="footer" role="contentinfo">
+         <p class="center">Powered by ESSA</p>
+      </footer>
+   </div>
+</body>
+
+</html>
